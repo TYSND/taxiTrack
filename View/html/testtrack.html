@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>OpenLayers Demo</title>
+    <style type="text/css">
+      html, body, #basicMap {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+      }
+    </style>
+	<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+	<script src="https://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+    <script type="text/javascript">
+	function init(){
+		// 使用指定的文档元素创建地图
+		var map = new OpenLayers.Map("map");
+	 
+		// 创建一个 OpenStreeMap raster layer
+		// 把这个图层添加到map中
+		var osm = new OpenLayers.Layer.OSM();
+		map.addLayer(osm);
+		// 设定视图缩放地图程度为最大
+		map.zoomToMaxExtent();
+		
+		var lat = 39.9306804;
+		var lon = 116.3854147;
+		var zoom = 11;
+		var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+		//设置地图中心和缩放级别
+		map.setCenter(lonLat, zoom);
+		//throw '';
+		//注册一个单击事件来展示界面上对应的坐标
+		map.events.register('click', map, function (e) {   
+			var lonlat0 =map.getLonLatFromPixel(e.xy);
+			alert(lonlat0.lon+", "+lonlat0.lat);
+			var pixel = new OpenLayers.Pixel(e.xy.x,e.xy.y);          
+			var lonlat = map.getLonLatFromPixel(pixel);          
+			lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326")); //由900913坐标系转为4326 
+			alert(lonlat.lon+", "+lonlat.lat);
+		}); 
+		
+		  var featurecollection = {
+				  "type": "FeatureCollection", 
+				  "features": [
+					{"geometry": {
+						"type": "GeometryCollection", 
+						"geometries": [
+							{
+								"type": "LineString", 
+								"coordinates": 
+									[[12941518, 4856065], 
+									[13941518, 4956065]]
+							}, 
+							{
+								"type": "Polygon", 
+								"coordinates": 
+									[[[12941518, 4856065], 
+									  [12947518, 4856065], 
+									  [12941518, 4866065]
+									  ]]
+							},
+							{
+								"type":"Point", 
+								"coordinates":[12941518, 4856065]
+							}
+						]
+					}, 
+					"type": "Feature", 
+					"properties": {}}
+				  ]
+			   };
+			   var geojson_format = new OpenLayers.Format.GeoJSON();
+			   var vector_layer = new OpenLayers.Layer.Vector(); 
+			   map.addLayer(vector_layer);
+			   vector_layer.addFeatures(geojson_format.read(featurecollection));
+	}
+	</script>
+  </head>
+  <body onload="init();">
+    <div id="basicMap"></div>
+  </body>
+</html>
