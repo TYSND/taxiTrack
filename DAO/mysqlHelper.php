@@ -53,6 +53,10 @@ class mysqlHelper
 	{
 		mysqli_rollback($this->con);
 	}
+	public function error()
+	{
+		return mysqli_error($this->con);
+	}
 }
 
 /*
