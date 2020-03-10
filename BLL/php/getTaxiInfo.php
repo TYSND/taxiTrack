@@ -1,7 +1,7 @@
 <?php
 	require '../../DAO/mysqlHelper.php';
-	//$taxi_id=$_POST['license'];
-	$taxi_id='453365';
+	$taxi_id=$_POST['license'];
+	//$taxi_id='453365';
 	
 	$sql="
 		select taxi_id,full_load,actual_load,info_date,lon,lat,attr1,attr2,attr3
