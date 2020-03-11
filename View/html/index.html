@@ -44,7 +44,7 @@
 			var lgpx = new OpenLayers.Layer.Vector("Lakeside cycle ride", {
 				strategies: [new OpenLayers.Strategy.Fixed()],
 				protocol: new OpenLayers.Protocol.HTTP({
-					url: "around_lake.gpx",
+					url: "../../Data/output.gpx",
 					format: new OpenLayers.Format.GPX()
 				}),
 				style: {strokeColor: "green", strokeWidth: 5, strokeOpacity: 0.5},
@@ -56,9 +56,9 @@
 			var size = new OpenLayers.Size(21, 25);
 			var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
 			var icon = new OpenLayers.Icon('https://www.openstreetmap.org/openlayers/img/marker.png',size,offset);
-			var lat=46.57608333;
-			var lon=8.89241667;
-			var zoom=18;
+			var lat=39.9389;
+			var lon=116.389;
+			var zoom=11;
 			var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
 			layerMarkers.addMarker(new OpenLayers.Marker(lonLat,icon));
 

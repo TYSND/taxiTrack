@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.0">
+	<name></name>
+	<wpt lat="" lon="">
+		<ele></ele>
+		<name></name>
+	</wpt>
+	<trk><name></name><number></number><trkseg>
+		<trkpt lat="" lon=""><ele></ele><time></time></trkpt>
+	</trkseg></trk>
+</gpx>
