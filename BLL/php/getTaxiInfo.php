@@ -35,7 +35,7 @@ echo $taxi_id.'<br/>';
 	fclose($wf);
 	echo 'over';
 echo '<br/>';
-$shell="python /home/ubuntu/taxiTrack/Data/track2Gpx.py";
+$shell="python /home/ubuntu/taxiTrack/BLL/python/track2Gpx.py";
 //$shell="/usr/bin/python3 /home/ubuntu/taxiTrack/Data/test.py";
 //passthru($shell);
 $a=exec($shell." 2>&1",$resultData,$ret);

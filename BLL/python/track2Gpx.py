@@ -2,12 +2,10 @@
 #  Copyright 2020 lpjworkroom
 #  use pygpx lib,convert track data in DB into gpx file format
 #  source data must be taxi_info-table-like format in DB
-import sys
-sys.path.append("/home/ubuntu/.local/lib/python3.7/site-packages/")
 import gpxpy
 
 
-with open('/home/ubuntu/taxiTrack/Data/one_taxi_info.txt','r') as f:
+with open('one_taxi_info.txt','r') as f:
     track={}   #  store taxi track segments list,taxi_id as key
     #  one_taxi_info format:taxi_id,full_load,actual_load,date,lon,lat,attr1,2,3
     for line in f:
@@ -31,5 +29,5 @@ with open('/home/ubuntu/taxiTrack/Data/one_taxi_info.txt','r') as f:
                 gpx_segment.points.append(
                     gpxpy.gpx.GPXTrackPoint(point['lat'],point['lon'], elevation=0))
     
-    with open('/home/ubuntu/taxiTrack/Data/output.gpx','w') as output:
+    with open('output.gpx','w') as output:
         output.write(gpx.to_xml())
