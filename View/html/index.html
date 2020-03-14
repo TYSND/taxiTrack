@@ -73,5 +73,11 @@
 <body onload="init();">
 	<!-- define a DIV into which the map will appear. Make it take up the whole window -->
 	<div style="width:90%; height:90%" id="map"></div>
+	<div style="float:right;">
+		<form id="taxi_id" method="post" action="../../BLL/php/getTaxiInfo.php">
+			<input type="input" name="license" id="license"/>
+			<input  type="submit" id="SubmitButton" value="提交" >
+		</form>
+	</div>
 </body>
 </html>
