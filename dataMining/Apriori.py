@@ -11,7 +11,7 @@ from itertools import combinations
 from ItemSet import ItemSet,itemsetOccurence
 from utils import log
 
-debug=True
+debug=False
 
 class Apriori():
     __minSup=0 # minimun support threshold
@@ -19,7 +19,6 @@ class Apriori():
     __debug=True
 
     def __init__(self,minSup,items):
-        # initiat items and item occurence,to be done...
         assert type(minSup) is int and (minSup>0),\
             "support threshold must be positive integer"
         self.__minSup=minSup

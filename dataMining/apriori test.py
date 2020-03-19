@@ -1,4 +1,4 @@
 from Apriori import Apriori
-
-a=Apriori(3,[[1,2,3],[1,3],[2,3],[1,3]])
+from getTransactionDB import getTransactionDB
+a=Apriori(5,getTransactionDB(10).getTransactionList())
 print('solve:',a.solve())

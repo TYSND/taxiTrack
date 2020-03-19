@@ -1,6 +1,9 @@
+# ItemSet.py by lpjworkroom
+# defines itemset used and often used methods in data mining
+
 from utils import log
 
-debug=True
+debug=False
 
 def itemsetOccurence(target,records):
     # return occurence of target itemset in records list
