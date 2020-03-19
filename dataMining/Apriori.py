@@ -51,6 +51,7 @@ class Apriori():
             if len(freq)==0:
                 return remain if k!=1 else []   # return last loop item sets if not at first loop
             remain=freq.copy()
+            print(k,' th loop finished')
             k+=1
 
     @staticmethod
