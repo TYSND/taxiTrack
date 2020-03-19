@@ -8,50 +8,60 @@
 #       remove items less than threshold
 
 from itertools import combinations
+from ItemSet import ItemSet,itemsetOccurence
+from utils import log
 
+debug=True
 
-class ItemSet(list):
-    occurence=0 # number of set's occurence
+class Apriori():
+    __minSup=0 # minimun support threshold
+    __items=[] # store item sets
+    __debug=True
 
-class Apriori:
-    minSup=0 # minimun support threshold
-    items=[] # store item sets
-
-    def __init__(self):
+    def __init__(self,minSup,items):
         # initiat items and item occurence,to be done...
-        pass
+        assert type(minSup) is int and (minSup>0),\
+            "support threshold must be positive integer"
+        self.__minSup=minSup
+        self.initItems(items)
+
+    def initItems(self,items):
+        # count every itemset's occurence
+        occurDict={}
+        for itemset in items:
+            tup=tuple(itemset)
+            occurDict[tup]=(occurDict[tup]+1) if tup in occurDict else 1
+        for tup,occur in occurDict.items():
+            self.__items.append(ItemSet(list(tup),occur))
     
     def solve(self):
-        items=self.items.copy()
+        remain=self.__items.copy()
         k=1 # k th item set
         while True:
-            candi=self.getCandidateSets(items,k) # get candidate item set with length k from items
-            if count(candi)==0: # k bigger than elements count,no combination
-                return items
-            freq=[] # frequent sets for next loop
+            candi=self.getCandidateSets(remain,k) # get candidate item set list with length k from items
+            log(debug,'candidates:',candi,'k=',k)
+            freq=[] # frequent itemsets remained
+            if len(candi)==0: # k bigger than elements count,no combination
+                return remain
             for itemset in candi:
-                if self.itemsetOccurence(itemset,self.items)>=self.minSup:
+                log(debug,itemset,'occurs:',itemsetOccurence(itemset,self.__items))
+                if itemsetOccurence(itemset,self.__items)>=self.__minSup:
                     freq.append(itemset)
-            # no more frequent itemsets,return last loop item sets
-            if count(freq)==0:
-                return items
-            items=freq
+            log(debug,'frequent itemsets:',freq,'k=',k)
+            # no more frequent itemsets
+            if len(freq)==0:
+                return remain if k!=1 else []   # return last loop item sets if not at first loop
+            remain=freq.copy()
             k+=1
 
+    @staticmethod
     def getCandidateSets(items,lenth):
         # generate all combinations with lenth from elements in all itemsets
         ele=set()
         for itemset in items: # unify elements
             for element in itemset:
                 ele.add(element)
-        return [combinations([ele],lenth)]
+        return [list(tup) for tup in combinations(list(ele),lenth)]
 
-    def itemsetOccurence(target,records):
-        for itemset in records:
-            occur=True
-            for ele in target: # check if all element in target occurs
-                if itemset.count(ele)==0:
-                    occur=False
-                    break
-            yield itemset.occurence if occur else 0
+        
     
