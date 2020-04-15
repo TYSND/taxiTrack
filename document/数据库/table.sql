@@ -28,3 +28,16 @@ create index taxi_id_index on taxi_info
 (
    taxi_id
 );
+
+
+create table poi_info
+(
+	id 					int not null auto_increment,
+	poi_name 			varchar(50) not null,
+	poi_addr 			text not null,
+	phone 				varchar(20) not null,
+	tel 				varchar(20) not null,
+	lon 				float not null,
+	lat 				float not null,
+	primary key(id)
+);

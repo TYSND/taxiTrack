@@ -48,7 +48,7 @@ class mysqlHelper
 	//开启事务
 	public function transaction()
 	{
-		mysqli_begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
+		mysqli_begin_transaction($this->con,MYSQLI_TRANS_START_READ_WRITE);
 	}
 	//手动提交SQL语句
 	public function commit()
