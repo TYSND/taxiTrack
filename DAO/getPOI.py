@@ -40,3 +40,4 @@ class getPOI():
 		db.close()
 
 		print("ok")
+		return list

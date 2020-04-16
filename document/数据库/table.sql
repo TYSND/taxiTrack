@@ -29,6 +29,14 @@ create index taxi_id_index on taxi_info
    taxi_id
 );
 
+create table taxi
+(
+	id                   int not null auto_increment,
+	taxi_id              varchar(10) not null,
+	primary key(id)
+);
+
+insert into taxi (taxi_id) select taxi_id from taxi_info group by(taxi_id);
 
 create table poi_info
 (
