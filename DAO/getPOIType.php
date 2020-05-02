@@ -9,6 +9,7 @@ require '../DAO/mysqlHelper.php';
 	$mh=new mysqlHelper();
 	$mh->transaction();
 	$mh->changeAutocommit(FALSE);
+$poi_type_arr=array();
 while($line_arr=fgetcsv($fpoi))
 {
 	$cnt++;
@@ -26,6 +27,7 @@ while($line_arr=fgetcsv($fpoi))
 		$lon=iconv('GB2312','utf-8',$line_arr[5]);
 		$lat=iconv('GB2312','utf-8',$line_arr[6]);
 		
+		/*
 		$phone=explode(",",$phone);
 		$phone=$phone[0];
 		
@@ -45,28 +47,69 @@ while($line_arr=fgetcsv($fpoi))
 		{
 			//break;
 		}
+		*/
+		
+		
+		//处理分类
+		$cla=substr($cla,1,strlen($cla)-2);
+		$rplc=array('[',']');
+		$cla=str_replace($rplc,'',$cla);
+		$cla_arr=explode(",",$cla);
+		//print_r($cla_arr);
+		//echo PHP_EOL;
+		
+		for($i = 0; $i<count($cla_arr); $i+=2)
+		{
+			echo $cla_arr[$i].' '.$cla_arr[$i+1].PHP_EOL;
+			$typeid=$cla_arr[$i];
+			$typename=$cla_arr[$i+1];
+			$typesql="
+				insert into poi_type
+				(poi_id,poi_type_id)
+				values
+				({$cnt},{$typeid})
+			";
+			echo $typesql;
+			
+			$res=$mh->executeSql($typesql);
+			echo $mh->error().PHP_EOL;
+			
+			if(!array_key_exists($cla_arr[$i],$poi_type_arr))
+			{
+				$poi_type_arr[$cla_arr[$i]]=$cla_arr[$i+1];
+			}
+		}
+		
+		
+		
+		
 		if($cnt%$mod==0)
 		{
 			$mh->commit();
 			sleep(1);
 		}
 		echo $cnt.PHP_EOL;
-		/*
-		//处理分类
-		//$cla=substr($cla,1,strlen($cla)-2);
-		$rplc=array('[',']');
-		$cla=str_replace($rplc,'',$cla);
-		$cla_arr=explode(",",$cla);
-		print_r($cla_arr);
 		echo PHP_EOL;
-		*/
 		
 		
 	}
+}
+foreach($poi_type_arr as $key=>$val)
+{
+	$codesql="
+		insert into poi_type_code
+		(id,poi_type)
+		values
+		({$key},'{$val}')
+	";
+	echo $codesql.PHP_EOL;
+	
+	$res=$mh->executeSql($codesql);
+	echo $mh->error().PHP_EOL;
 }
 $mh->commit();
 $mh->changeAutocommit(TRUE);
 	fclose($fpoi);
 	
-
+print_r($poi_type_arr);
 ?>

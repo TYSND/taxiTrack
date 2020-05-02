@@ -49,3 +49,17 @@ create table poi_info
 	lat 				float not null,
 	primary key(id)
 );
+
+create table poi_type_code
+(
+	id 					int not null auto_increment,
+	poi_type			varchar(50) not null,
+	primary key(id)
+);
+create table poi_type
+(
+	id 					int not null auto_increment,
+	poi_id				int not null,
+	poi_type_id			int not null,
+	primary key(id)
+);
