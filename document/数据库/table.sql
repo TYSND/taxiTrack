@@ -63,3 +63,19 @@ create table poi_type
 	poi_type_id			int not null,
 	primary key(id)
 );
+
+select count(poi_id) as cnt from poi_type 
+where
+poi_id in (select distinct poi_id from poi_type) 
+group by poi_id
+order by cnt desc limit 10;
+
+select poi_type_code.id,poi_type_code.poi_type,count(poi_type.poi_type_id) as cnt from poi_type,poi_type_code
+where poi_type.poi_type_id = poi_type_code.id
+group by poi_type.poi_type_id
+order by cnt desc limit 10 offset 1;
+
+
+select lon,lat from poi_info
+where
+id in (select poi_id from poi_type where poi_type_id = 296);

@@ -38,6 +38,7 @@ class HierarchicalClustering:
         clusters = self.clusters
         dist = self.dist
         while len(clusters) != 1:
+            print(len(clusters))
             minDist = self.INF
             toCombine = (0, 1)
             for i in range(len(clusters)):
