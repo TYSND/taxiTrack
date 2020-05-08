@@ -8,7 +8,7 @@ if __name__ == '__main__':
     cursor = db.cursor()
     sql = "select lon,lat from poi_info \
 where \
-id in (select poi_id from poi_type where poi_type_id = 296);"
+id in (select poi_id from poi_type where poi_type_id = 296) limit 20;"
     try:
         # 执行SQL语句
         cursor.execute(sql)
