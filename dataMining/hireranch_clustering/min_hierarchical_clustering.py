@@ -1,15 +1,15 @@
-from hierarchichal_clustering import HierarchicalClustering
+from hierarchical_clustering import HierarchicalClustering
 
 
 class MinHierarchicalClustering(HierarchicalClustering):
     def getCombinedDist(self, a, b, new):
         dist = self.dist
         clusters = self.clusters
-        for i in range(len(dist)):
+        for i in range(len(clusters)):
             if clusters[i] in [a, b, new]:
                 continue
-            minDist = min(dist[tuple(clusters[i], a)], dist[tuple(clusters[i], b)])
-            dist[tuple(clusters[i], new)], dist[tuple(new, clusters[i])] = minDist
+            minDist = min(dist[tuple([clusters[i], a])], dist[tuple([clusters[i], b])])
+            dist[tuple([clusters[i], new])], dist[tuple([new, clusters[i]])] = minDist,minDist
 
     def calcDist(self, a, b):
         minDist = self.INF

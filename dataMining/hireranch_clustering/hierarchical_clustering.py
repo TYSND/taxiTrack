@@ -31,19 +31,19 @@ class HierarchicalClustering:
         for i in range(len(clusters)):
             for j in range(i + 1, len(clusters)):
                 dist = self.calcDist(clusters[i], clusters[j])
-                self.dist[tuple(clusters[i], clusters[j])] = dist
-                self.dist[tuple(clusters[j], clusters[i])] = dist
+                self.dist[tuple([clusters[i], clusters[j]])] = dist
+                self.dist[tuple([clusters[j], clusters[i]])] = dist
 
     def run(self):
         clusters = self.clusters
         dist = self.dist
         while len(clusters) != 1:
-            minDist = INF
+            minDist = self.INF
             toCombine = (0, 1)
             for i in range(len(clusters)):
                 for j in range(i + 1, len(clusters)):
-                    if dist[tuple(clusters[i], clusters[j])] < minDist:
-                        minDist = dist[tuple(clusters[i], clusters[j])]
+                    if dist[tuple([clusters[i], clusters[j]])] < minDist:
+                        minDist = dist[tuple([clusters[i], clusters[j]])]
                         toCombine = (i, j)
             i, j = toCombine[0], toCombine[1]
             newCluster = Cluster.combine(clusters[i], clusters[j])
