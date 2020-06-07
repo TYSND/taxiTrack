@@ -1,15 +1,19 @@
-from DBScan import DBPoint, DBScan
+from DBScan import DBScan
 
 
 class Cluster:
     life, paired = 0, False
+    start,end=0,0
     POIs = []
 
     def __init__(self, POIs):
         self.POIs = POIs
 
     def intersection(self, b):
-        return Cluster([poi for poi in self.POIs if poi in b.POIs])
+        aDict,bDict={poi.attr['id']:poi for pois in [self.POIs,b.POIs] for poi in pois}
+        ret=Cluster([val for id,val in aDict if id in bDict])
+        ret.life=self.life
+        return ret
 
 
 class CMC:
@@ -25,7 +29,7 @@ class CMC:
 
     def run(self):
         V, ret = [], []
-        for POIs in self.timeline:
+        for ind,POIs in enumerate(self.timeline):
             for v in V:
                 v.paired = False
 
@@ -43,10 +47,10 @@ class CMC:
 
             for v in V:
                 if not v.paired and v.life >= self.DBScan['life']:
+                    v.end=ind
+                    v.start=ind-v.life
                     ret.append(v)
 
-            for now in clusters:
-                if not now.paired:
-                    nxtV.append(now)
+            nxtV.extend([now for now in clusters if not now.paired])
 
         return ret

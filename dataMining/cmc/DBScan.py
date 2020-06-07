@@ -21,7 +21,7 @@ class DBScan:
     _Eps, _threshold = 0, 0
 
     def __init__(self, points, Eps, threshold):
-        self.points = [self.DBPoint(p.lon, p.lat, p.attr) for p in points]
+        self.points = [DBPoint(p.lon, p.lat, p.attr) for p in points]
         self._Eps = Eps
         self._threshold = threshold
 
