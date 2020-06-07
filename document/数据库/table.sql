@@ -64,6 +64,16 @@ create table poi_type
 	primary key(id)
 );
 
+create table time_stamp_taxi_info
+(
+	id 					int not null auto_increment,
+	time_stamp			int not null,
+	taxi_id				varchar(10) not null,
+	lon 				float not null,
+	lat 				float not null,
+	primary key(id)
+);
+
 select count(poi_id) as cnt from poi_type 
 where
 poi_id in (select distinct poi_id from poi_type) 
