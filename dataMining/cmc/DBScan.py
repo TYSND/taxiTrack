@@ -1,4 +1,8 @@
 from Disjoint_set import DisjointSet
+from util import log
+import pprint
+
+pp=pprint.PrettyPrinter(indent=4)
 
 
 class DBPoint:
@@ -6,6 +10,7 @@ class DBPoint:
     lon, lat = 0, 0
     attr = {}
     neighbor = []
+    Lon2Meter,Lat2Meter=85.39*1000,111*1000
 
     def __init__(self, lon, lat, attr):
         self.lat = lat
@@ -13,7 +18,7 @@ class DBPoint:
         self.attr = attr
 
     def dist(self, to):
-        return ((to.lon - self.lon) ** 2 + (to.lat - self.lat) ** 2) ** 0.5
+        return (((to.lon - self.lon)*self.Lon2Meter) ** 2 + ((to.lat - self.lat)*self.Lat2Meter) ** 2) ** 0.5
 
 
 class DBScan:
@@ -32,6 +37,7 @@ class DBScan:
 
     def labeling(self):
         for i in range(len(self.points)):
+            log("labeling...%d/%d" % (i+1,len(self.points)))
             now = self.points[i]
             for j in range(i + 1, len(self.points)):
                 to = self.points[j]
@@ -55,6 +61,7 @@ class DBScan:
         vertices = [p for p in self.points if p.type == 2]  # core only
         ds = DisjointSet(vertices)
         for i in range(len(vertices)):
+            log("unionFinding...%d/%d" % (i + 1, len(vertices)))
             for j in range(i + 1, len(vertices)):
                 now, to = vertices[i], vertices[j]
                 if now.dist(to) < self._Eps:
@@ -64,8 +71,9 @@ class DBScan:
 
     def assignBorder(self, coreClusters):
         ret = []
-        assigned = {}
-        for cores in coreClusters:
+        assigned = set()
+        for i,cores in enumerate(coreClusters):
+            log("assingBordering...%d/%d" % (i + 1, len(coreClusters)))
             cluster = []
             for core in cores:
                 for nei in core.neighbor:
